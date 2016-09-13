@@ -15,21 +15,14 @@ import javax.swing.JOptionPane;
 public class Cuenta 
 {
     private long numero_cuenta;
-    private double saldo_actual=0;
+    private double saldo_actual;
     private double retirar_saldo;
     private double ingresar_saldo;
     
-public Cuenta (long numero_cuenta, double saldo_actual, double retirar_saldo, double ingresar_saldo)   
+public Cuenta (double saldo_actual)
 {
-    this.numero_cuenta= numero_cuenta;
     this.saldo_actual= saldo_actual;
-    this.retirar_saldo= retirar_saldo;
-    this.ingresar_saldo= ingresar_saldo;
-} 
-
-    public Cuenta(ArrayList<Cuenta> numidentf, ArrayList<Cuenta> saldoactual, ArrayList<Cuenta> montsacar, ArrayList<Cuenta> montingre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+}
 
     public double getIngresar_saldo() {
         return ingresar_saldo;
@@ -65,37 +58,29 @@ public Cuenta (long numero_cuenta, double saldo_actual, double retirar_saldo, do
 
     
     
-    public Cuenta Ingresar (Cuenta p)
+    public double ingresar ()
     {
-        double saldo, interes, retirar, ingresar, op;
-        long numeros;
-        Cuenta persona;
-        numeros=p.numero_cuenta;
-        saldo= p.saldo_actual;
-        retirar= p.retirar_saldo;
-        ingresar= p.ingresar_saldo;
-        op= saldo+ingresar;
-        persona= new Cuenta (numeros, op,retirar, ingresar);
-        return persona;
+        double op;
+        op= this.saldo_actual+this.ingresar_saldo;
+        
+        return op;
     }
-    public Cuenta retirar (Cuenta p)
+    public Cuenta retirar(Cuenta p)
     {
-      double saldo, interes, retirar = 0, ingresar;
-      long numeros;
-      Cuenta persona;
-      saldo= p.saldo_actual;
-      numeros= p.numero_cuenta;
-      ingresar= p.ingresar_saldo;
+        Cuenta persona;
+      double retirar = p.retirar_saldo;
+              
       
-      if (p.saldo_actual<p.retirar_saldo)
+      if (this.saldo_actual<p.retirar_saldo)
       {
           JOptionPane.showMessageDialog(null, "No se puede retirar ese dinero","ERROR" , JOptionPane.ERROR_MESSAGE);
       }
       else 
       {
-          retirar= p.saldo_actual-p.retirar_saldo;
+          retirar= (this.saldo_actual)-(retirar);
       }
-      persona = new Cuenta (numeros, saldo,retirar, ingresar);
+      persona = new Cuenta (retirar);
       return persona;
     }
 }
+    

@@ -16,7 +16,9 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    Cuenta aux, persona;
+    Cuenta persona, persona2;
+    long numidentf;
+    double montingre, montsacar, saldoactual;
     ArrayList <Cuenta> v = new ArrayList();
     public Principal() {
         initComponents();
@@ -98,6 +100,11 @@ public class Principal extends javax.swing.JFrame {
                 cmbIngresarActionPerformed(evt);
             }
         });
+        cmbIngresar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmbIngresarKeyPressed(evt);
+            }
+        });
         jPanel1.add(cmbIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, 90, -1));
 
         cmbGuardar.setText("Guardar");
@@ -126,47 +133,26 @@ public class Principal extends javax.swing.JFrame {
 
     private void cmbIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbIngresarActionPerformed
         // TODO add your handling code here:
-        String aux3;
-        long numidentf;
-        double montingre, montsacar=0, saldoactual=0;
+        
         
         numidentf= Long.parseLong(txtNumeroIdentificacion.getText());
         montingre= Double.parseDouble(txtSaldoAIngresar.getText());
+        montsacar= Double.parseDouble(txtSaldoRetirar.getText());
         
-        persona= new Cuenta (numidentf, saldoactual,montsacar, montingre);
-        aux= persona.Ingresar(persona);
-        v.add(aux);
-        txtSaldo.setText(""+aux.getSaldo_actual());
-        for (int i = 0; i < v.size(); i++) 
-        {aux3= "Identificacion: " + v.get(i).getNumero_cuenta()+ "\n"
-                  + "Saldo Actual: " + v.get(i).getSaldo_actual() + "\n"
-                  + "Saldo Ingresado: " + v.get(i).getIngresar_saldo() + "\n"
-                  + "Saldo Retirado: " + v.get(i).getRetirar_saldo() + "\n\n";
-          
-            txtReciboCuenta.append(aux3);
-        }
+        persona= new Cuenta (saldoactual);
+        
+        txtSaldo.setText(""+persona.ingresar());
+        
+        txtSaldoAIngresar.setText("");
         
     }//GEN-LAST:event_cmbIngresarActionPerformed
 
     private void cmbRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRetirarActionPerformed
         // TODO add your handling code here:
-        String aux2;
-        long numidentf;
-        double saldoactual, montsacar, montingre;
-        aux= persona.retirar(persona);
-        v.add(aux);
-        for (int i = 0; i < v.size(); i++) 
-        {
-            
-            aux2= "Identificacion: " + v.get(i).getNumero_cuenta()+ "\n"
-                  + "Saldo Actual: " + v.get(i).getSaldo_actual() + "\n"
-                  + "Saldo Ingresado: " + v.get(i).getIngresar_saldo() + "\n"
-                  + "Saldo Retirado: " + v.get(i).getRetirar_saldo() + "\n\n";
-          
-            txtReciboCuenta.append(aux2);
-            
-        }
-        
+        Cuenta aux1 = null;
+        persona= new Cuenta (saldoactual);
+        aux1= persona.retirar(aux1);
+        txtSaldo.setText(""+aux1);
         
     }//GEN-LAST:event_cmbRetirarActionPerformed
 
@@ -174,6 +160,11 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_cmbGuardarActionPerformed
+
+    private void cmbIngresarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbIngresarKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cmbIngresarKeyPressed
 
     /**
      * @param args the command line arguments
