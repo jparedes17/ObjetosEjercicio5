@@ -6,7 +6,7 @@
 package interfaz;
 
 import clases.Cuenta;
-import java.util.ArrayList;
+import javax.swing.JOptionPane;
 /**
  *
  * @author pared
@@ -16,12 +16,15 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    Cuenta persona, persona2;
-    long numidentf;
-    double montingre, montsacar, saldoactual;
-    ArrayList <Cuenta> v = new ArrayList();
+    Cuenta persona;
+    
     public Principal() {
         initComponents();
+        cmbCrearCuenta.setEnabled(true);
+        cmbGuardar.setEnabled(false);
+        cmbIngresar.setEnabled(false);
+        cmbRetirar.setEnabled(false);
+        cmbSalir.setEnabled(false);
     }
 
     /**
@@ -50,6 +53,9 @@ public class Principal extends javax.swing.JFrame {
         cmbGuardar = new javax.swing.JButton();
         cmbSalir = new javax.swing.JButton();
         cmbRetirar = new javax.swing.JButton();
+        cmbCrearCuenta = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        txtNoCuenta = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -62,25 +68,43 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Numero de Identificacion:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
-        jPanel1.add(txtNumeroIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 110, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        txtNumeroIdentificacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroIdentificacionKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtNumeroIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 110, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Saldo:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 60, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 60, -1));
 
         txtSaldo.setEditable(false);
-        jPanel1.add(txtSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 110, -1));
+        jPanel1.add(txtSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 110, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Saldo a Ingresar:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
-        jPanel1.add(txtSaldoAIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 110, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
+
+        txtSaldoAIngresar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSaldoAIngresarKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtSaldoAIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, 110, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Cantidad a Retirar:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
-        jPanel1.add(txtSaldoRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 110, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
+
+        txtSaldoRetirar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSaldoRetirarKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtSaldoRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, 110, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Recibo Cuenta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -92,7 +116,7 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 290, 130));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 320, 160));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 320, 160));
 
         cmbIngresar.setText("Ingresar");
         cmbIngresar.addActionListener(new java.awt.event.ActionListener() {
@@ -105,18 +129,23 @@ public class Principal extends javax.swing.JFrame {
                 cmbIngresarKeyPressed(evt);
             }
         });
-        jPanel1.add(cmbIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, 90, -1));
+        jPanel1.add(cmbIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, 120, -1));
 
-        cmbGuardar.setText("Guardar");
+        cmbGuardar.setText("Mostrar");
         cmbGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(cmbGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 240, 90, -1));
+        jPanel1.add(cmbGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 240, 120, -1));
 
         cmbSalir.setText("Salir");
-        jPanel1.add(cmbSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 90, -1));
+        cmbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSalirActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cmbSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 120, -1));
 
         cmbRetirar.setText("Retirar");
         cmbRetirar.addActionListener(new java.awt.event.ActionListener() {
@@ -124,7 +153,26 @@ public class Principal extends javax.swing.JFrame {
                 cmbRetirarActionPerformed(evt);
             }
         });
-        jPanel1.add(cmbRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 90, -1));
+        jPanel1.add(cmbRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 120, -1));
+
+        cmbCrearCuenta.setText("Crear Cuenta");
+        cmbCrearCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCrearCuentaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cmbCrearCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 150, 120, -1));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Numero de Cuenta:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
+
+        txtNoCuenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNoCuentaKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtNoCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 110, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 400));
 
@@ -133,38 +181,127 @@ public class Principal extends javax.swing.JFrame {
 
     private void cmbIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbIngresarActionPerformed
         // TODO add your handling code here:
+        double montingresar;
         
-        
-        numidentf= Long.parseLong(txtNumeroIdentificacion.getText());
-        montingre= Double.parseDouble(txtSaldoAIngresar.getText());
-        montsacar= Double.parseDouble(txtSaldoRetirar.getText());
-        
-        persona= new Cuenta (saldoactual);
-        
-        txtSaldo.setText(""+persona.ingresar());
+        montingresar= Double.parseDouble(txtSaldoAIngresar.getText());
+        persona.ingresar(montingresar);
+        txtSaldo.setText(""+persona.getSaldo_actual());
         
         txtSaldoAIngresar.setText("");
-        
+        cmbCrearCuenta.setEnabled(false);
+        cmbGuardar.setEnabled(true);
+        cmbIngresar.setEnabled(true);
+        cmbRetirar.setEnabled(true);
+        cmbSalir.setEnabled(true);
     }//GEN-LAST:event_cmbIngresarActionPerformed
 
     private void cmbRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRetirarActionPerformed
         // TODO add your handling code here:
-        Cuenta aux1 = null;
-        persona= new Cuenta (saldoactual);
-        aux1= persona.retirar(aux1);
-        txtSaldo.setText(""+aux1);
+        double montretirar;
+        montretirar = Double.parseDouble(txtSaldoRetirar.getText());
         
+        if (montretirar> persona.getSaldo_actual())
+        {
+            JOptionPane.showMessageDialog(this, "Saldo Insuficiente", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        else 
+        {
+           persona.retirar(montretirar);
+           txtSaldo.setText(""+persona.getSaldo_actual());
+        }
+        
+        txtSaldoRetirar.setText("");
+        cmbCrearCuenta.setEnabled(false);
+        cmbGuardar.setEnabled(true);
+        cmbIngresar.setEnabled(true);
+        cmbRetirar.setEnabled(true);
+        cmbSalir.setEnabled(true);
     }//GEN-LAST:event_cmbRetirarActionPerformed
 
     private void cmbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGuardarActionPerformed
         // TODO add your handling code here:
-        
+        String mostrar; 
+        mostrar= persona.mostrar();
+        txtReciboCuenta.append(mostrar);
+        cmbCrearCuenta.setEnabled(true);
+        cmbGuardar.setEnabled(false);
+        cmbIngresar.setEnabled(false);
+        cmbRetirar.setEnabled(false);
+        cmbSalir.setEnabled(true);
     }//GEN-LAST:event_cmbGuardarActionPerformed
 
     private void cmbIngresarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbIngresarKeyPressed
         // TODO add your handling code here:
         
     }//GEN-LAST:event_cmbIngresarKeyPressed
+
+    private void cmbCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCrearCuentaActionPerformed
+        // TODO add your handling code here:
+        long noidenti, nocuenta;
+        
+        noidenti = Long.parseLong(txtNumeroIdentificacion.getText());
+        nocuenta = Long.parseLong(txtNoCuenta.getText());
+        
+        persona = new Cuenta (nocuenta, noidenti);
+        
+        JOptionPane.showMessageDialog(this, "Cuenta Creada Correctamente");
+        cmbCrearCuenta.setEnabled(false);
+        cmbGuardar.setEnabled(true);
+        cmbIngresar.setEnabled(true);
+        cmbRetirar.setEnabled(true);
+        cmbSalir.setEnabled(true);
+    }//GEN-LAST:event_cmbCrearCuentaActionPerformed
+
+    private void cmbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSalirActionPerformed
+        // TODO add your handling code here:
+        txtNoCuenta.setText("");
+        txtNumeroIdentificacion.setText("");
+        txtReciboCuenta.setText("");
+        txtSaldo.setText("");
+        txtSaldoAIngresar.setText("");
+        txtSaldoRetirar.setText("");
+        cmbCrearCuenta.setEnabled(true);
+        cmbGuardar.setEnabled(false);
+        cmbIngresar.setEnabled(false);
+        cmbRetirar.setEnabled(false);
+        cmbSalir.setEnabled(false);
+    }//GEN-LAST:event_cmbSalirActionPerformed
+
+    private void txtNoCuentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoCuentaKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNoCuentaKeyTyped
+
+    private void txtNumeroIdentificacionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroIdentificacionKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumeroIdentificacionKeyTyped
+
+    private void txtSaldoAIngresarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSaldoAIngresarKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSaldoAIngresarKeyTyped
+
+    private void txtSaldoRetirarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSaldoRetirarKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSaldoRetirarKeyTyped
 
     /**
      * @param args the command line arguments
@@ -202,6 +339,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmbCrearCuenta;
     private javax.swing.JButton cmbGuardar;
     private javax.swing.JButton cmbIngresar;
     private javax.swing.JButton cmbRetirar;
@@ -211,9 +349,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtNoCuenta;
     private javax.swing.JTextField txtNumeroIdentificacion;
     private javax.swing.JTextArea txtReciboCuenta;
     private javax.swing.JTextField txtSaldo;

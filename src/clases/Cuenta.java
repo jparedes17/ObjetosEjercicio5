@@ -5,7 +5,7 @@
  */
 package clases;
 
-import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -15,30 +15,22 @@ import javax.swing.JOptionPane;
 public class Cuenta 
 {
     private long numero_cuenta;
+    private long numero_identificacion;
     private double saldo_actual;
-    private double retirar_saldo;
-    private double ingresar_saldo;
     
-public Cuenta (double saldo_actual)
+public Cuenta (long numero_cuenta, long numero_identificacion, double saldo_actual)
 {
     this.saldo_actual= saldo_actual;
+    this.numero_identificacion= numero_identificacion;
+    this.numero_cuenta = numero_cuenta;
 }
 
-    public double getIngresar_saldo() {
-        return ingresar_saldo;
-    }
-
-    public void setIngresar_saldo(double ingresar_saldo) {
-        this.ingresar_saldo = ingresar_saldo;
-    }
-
-    public double getRetirar_saldo() {
-        return retirar_saldo;
-    }
-
-    public void setRetirar_saldo(double retirar_saldo) {
-        this.retirar_saldo = retirar_saldo;
-    }
+public Cuenta (long numero_cuenta, long numero_identificacion)
+{
+    this.numero_identificacion= numero_identificacion;
+    this.numero_cuenta = numero_cuenta;
+    this.saldo_actual= 0;
+} 
 
     public long getNumero_cuenta() {
         return numero_cuenta;
@@ -48,39 +40,55 @@ public Cuenta (double saldo_actual)
         this.numero_cuenta = numero_cuenta;
     }
 
+    public long getNumero_identificacion() {
+        return numero_identificacion;
+    }
+
+    public void setNumero_identificacion(long numero_identificacion) {
+        this.numero_identificacion = numero_identificacion;
+    }
+
     public double getSaldo_actual() {
         return saldo_actual;
     }
 
-    public void setSaldo_actual(long saldo_actual) {
+    public void setSaldo_actual(double saldo_actual) {
         this.saldo_actual = saldo_actual;
     }
 
-    
-    
-    public double ingresar ()
+    public void actualizar_saldo (double ian)
     {
-        double op;
-        op= this.saldo_actual+this.ingresar_saldo;
+      double aux, aux2;
+      aux= (this.getSaldo_actual() *(ian/360));
+      aux2= this.getSaldo_actual() + aux;
+    }
+    
+    public void ingresar (double ingreso)
+    {
+        double aux;
         
-        return op;
+        aux= this.getSaldo_actual() + ingreso;
+        this.setSaldo_actual(aux);
+        
     }
-    public Cuenta retirar(Cuenta p)
-    {
-        Cuenta persona;
-      double retirar = p.retirar_saldo;
-              
-      
-      if (this.saldo_actual<p.retirar_saldo)
-      {
-          JOptionPane.showMessageDialog(null, "No se puede retirar ese dinero","ERROR" , JOptionPane.ERROR_MESSAGE);
-      }
-      else 
-      {
-          retirar= (this.saldo_actual)-(retirar);
-      }
-      persona = new Cuenta (retirar);
-      return persona;
-    }
-}
     
+    public void retirar (double retirar)
+    {
+        double aux;
+        aux = this.getSaldo_actual() - retirar;
+        this.setSaldo_actual(aux);
+        
+    }
+    public String mostrar ()
+    {
+        String aux;
+        aux = "No. de Identificacion: " + this.getNumero_identificacion() + "\n"
+            + "No. de Cuenta: " + this.getNumero_cuenta() + "\n"
+            + "Saldo actual: "  + this.getSaldo_actual();
+        
+        return aux;
+    }
+    
+    
+
+}
